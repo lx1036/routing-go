@@ -3,3 +3,4 @@ bin
 pkg
 src/github.com/kardianos
 src/github.com/stretchr
+src/github.com/golang/example
