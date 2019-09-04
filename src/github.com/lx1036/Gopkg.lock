@@ -18,9 +18,12 @@
   version = "v1.4.7"
 
 [[projects]]
-  digest = "1:3cff7a49e719a16cc321bcf66f097b118898c8ea73aa7cf0782d3c386b0aa6cc"
+  digest = "1:5049bcc4ddb65c9a5892f139dc517de2be3a79ff1b0c5f4c3d84d41c392d3c2a"
   name = "github.com/getsentry/sentry-go"
-  packages = ["."]
+  packages = [
+    ".",
+    "gin",
+  ]
   pruneopts = "UT"
   revision = "510f01e3c1e95d434331b518fdc62b2adaf5cff8"
   version = "v0.2.1"
@@ -255,8 +258,10 @@
   analyzer-version = 1
   input-imports = [
     "github.com/getsentry/sentry-go",
+    "github.com/getsentry/sentry-go/gin",
     "github.com/gin-gonic/gin",
     "github.com/gin-gonic/gin/binding",
+    "github.com/spf13/cast",
     "github.com/spf13/cobra",
     "github.com/spf13/viper",
     "github.com/stretchr/testify/assert",

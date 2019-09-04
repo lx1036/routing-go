@@ -4,11 +4,13 @@ import (
 	"errors"
 	"fmt"
 	"github.com/getsentry/sentry-go"
+	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
 	"io"
 	"log"
+	"net/http"
 	"os"
 	"time"
 )
@@ -66,15 +68,13 @@ func pkgLog()  {
 
 func pkgErrors()  {
 	err := errors.New("Error/Exception")
-	if err != nil {
-		fmt.Println(err)
-	}
+	fmt.Println(err)
 }
 
 /*
 SENTRY_DSN, SENTRY_RELEASE, SENTRY_ENVIRONMENT
  */
-func sentryDemo()  {
+func getSentryDsn() string  {
 	viper.AddConfigPath(".")
 	viper.SetConfigFile("env.json")
 	err := viper.ReadInConfig()
@@ -82,10 +82,13 @@ func sentryDemo()  {
 		panic(fmt.Errorf("Read config file failed:%v\n", err))
 	}
 	sentryDsn := viper.Get("sentry_dsn")
-	//fmt.Println(sentryDsn, viper.AllKeys())
 
-	err = sentry.Init(sentry.ClientOptions{
-		Dsn:              cast.ToString(sentryDsn),
+	return cast.ToString(sentryDsn)
+}
+
+func sentryGo()  {
+	err := sentry.Init(sentry.ClientOptions{
+		Dsn:              getSentryDsn(),
 		Debug:            true,
 		AttachStacktrace: true,
 		SampleRate:       0,
@@ -120,6 +123,74 @@ func sentryDemo()  {
 	}
 }
 
+func sentryGin()  {
+	err := sentry.Init(sentry.ClientOptions{
+		Dsn:              getSentryDsn(),
+		Debug:            true,
+		AttachStacktrace: true,
+		SampleRate:       0,
+		IgnoreErrors:     nil,
+		BeforeSend: func(event *sentry.Event, hint *sentry.EventHint) *sentry.Event {
+			if hint.Context != nil {
+				if request, ok :=hint.Context.Value(sentry.RequestContextKey).(*http.Request); ok {
+					fmt.Println("request: ", request)
+				}
+			}
+
+			fmt.Println("event: ", event)
+
+			return event
+		},
+		BeforeBreadcrumb: nil,
+		Integrations:     nil,
+		DebugWriter:      nil,
+		Transport:        nil,
+		ServerName:       "",
+		Release:          "",
+		Dist:             "",
+		Environment:      "",
+		MaxBreadcrumbs:   0,
+		HTTPTransport:    nil,
+		HTTPProxy:        "",
+		HTTPSProxy:       "",
+		CaCerts:          nil,
+	})
+
+	if err != nil {
+		fmt.Printf("Sentry initialization failed: %v\n", err)
+	}
+
+	app := gin.Default()
+	app.Use(sentrygin.New(sentrygin.Options{
+		Repanic:         true,
+		WaitForDelivery: false,
+		Timeout:         0,
+	}))
+	app.Use(func(context *gin.Context) {
+		if hub := sentrygin.GetHubFromContext(context); hub != nil {
+			hub.Scope().SetTag("someTag", "TagValue")
+		}
+
+		context.Next()
+	})
+	app.GET("/", func(context *gin.Context) {
+		if hub := sentrygin.GetHubFromContext(context); hub != nil {
+			hub.WithScope(func(scope *sentry.Scope) {
+				scope.SetExtra("someScope", "someScopeValue")
+				hub.CaptureMessage("test test test")
+			})
+		}
+
+		context.Status(http.StatusOK)
+	})
+
+	app.GET("/foo", func(context *gin.Context) {
+		panic("foo bar") // sentrygin handler will catch it
+	})
+
+	app.Run(":8080")
+}
+
 func main() {
 	//pkgLog()
 
@@ -127,5 +198,7 @@ func main() {
 
 	//pkgErrors()
 
-	sentryDemo()
+	//sentryGo()
+
+	sentryGin()
 }
