@@ -18,6 +18,14 @@
   version = "v1.4.7"
 
 [[projects]]
+  digest = "1:3cff7a49e719a16cc321bcf66f097b118898c8ea73aa7cf0782d3c386b0aa6cc"
+  name = "github.com/getsentry/sentry-go"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "510f01e3c1e95d434331b518fdc62b2adaf5cff8"
+  version = "v0.2.1"
+
+[[projects]]
   digest = "1:a4b5a6b32f33323c7850fae4ec085a0fbac3be93c057b6b8cef5bcabe24645ac"
   name = "github.com/gin-contrib/sse"
   packages = ["."]
@@ -246,6 +254,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/getsentry/sentry-go",
     "github.com/gin-gonic/gin",
     "github.com/gin-gonic/gin/binding",
     "github.com/spf13/cobra",
