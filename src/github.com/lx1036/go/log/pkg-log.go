@@ -2,11 +2,31 @@ package main
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"io"
 	"log"
 	"os"
 )
 
-func main() {
+/*
+Gin Global Error Handler
+ */
+
+func logGin()  {
+	gin.DisableConsoleColor()
+	file, _ := os.Create("gin.log")
+	gin.DefaultWriter = io.MultiWriter(file)
+	router := gin.Default()
+	router.GET("/", func(context *gin.Context) {
+		context.String(200, "OK")
+	})
+	router.GET("ping", func(context *gin.Context) {
+		context.String(200, "Pong")
+	})
+	router.Run(":8080")
+}
+
+func pkgLog()  {
 	err := os.Chmod("./test.txt", 0777)
 	if err != nil {
 		fmt.Println("os chmod file failed")
@@ -31,10 +51,17 @@ func main() {
 		log.Fatal(err, file.Fd())
 	}
 	/*
-	write bytes failed
-	2019/09/04 12:33:31 write ./test.txt: bad file descriptor 3
-	exit status 1
-	 */
+		write bytes failed
+		2019/09/04 12:33:31 write ./test.txt: bad file descriptor 3
+		exit status 1
+	*/
 
 	fmt.Println(file.Name())
+}
+
+
+func main() {
+	//pkgLog()
+
+	logGin()
 }
