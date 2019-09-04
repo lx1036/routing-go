@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
@@ -59,9 +60,18 @@ func pkgLog()  {
 	fmt.Println(file.Name())
 }
 
+func pkgErrors()  {
+	err := errors.New("Error/Exception")
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
 
 func main() {
 	//pkgLog()
 
-	logGin()
+	//logGin()
+
+	//pkgErrors()
 }
