@@ -22,6 +22,8 @@ Gin Global Error Handler
 func logGin()  {
 	gin.DisableConsoleColor()
 	file, _ := os.Create("gin.log")
+	stat, _ := file.Stat()
+	fmt.Println("Mode: ", stat.Mode())
 	gin.DefaultWriter = io.MultiWriter(file)
 	router := gin.Default()
 	router.GET("/", func(context *gin.Context) {
@@ -191,14 +193,20 @@ func sentryGin()  {
 	app.Run(":8080")
 }
 
+func debugHelloWorld()  {
+	fmt.Println("Debug")
+}
+
 func main() {
 	//pkgLog()
 
-	//logGin()
+	logGin()
 
 	//pkgErrors()
 
 	//sentryGo()
 
-	sentryGin()
+	//sentryGin()
+
+	//debugHelloWorld()
 }
