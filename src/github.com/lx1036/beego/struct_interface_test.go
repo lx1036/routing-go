@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 	"testing"
 )
@@ -44,21 +45,19 @@ type Shape interface {
 }
 
 func TestArea(t *testing.T) {
-	checkArea := func(t *testing.T, shape Shape, want float64) {
-		t.Helper()
-		got := shape.Area() // 在 Go 语言中, interface resolution 是隐式的
-		if got != want {
-			t.Errorf("got %.2f want %.2f", got, want)
-		}
+	tableDrivenTests := []struct{
+		shape Shape
+		want float64
+	}{
+		{Rectangle{10.0, 10.0}, 100.0},
+		{Circle{10.0}, 314.1592653589793},
 	}
 
-	t.Run("rectangle", func(t *testing.T) {
-		rectangle := Rectangle{10.0, 10.0}
-		checkArea(t, rectangle, 100.0)
-	})
-
-	t.Run("circle", func(t *testing.T) {
-		circle := Circle{10}
-		checkArea(t, circle, 314.1592653589793)
-	})
+	for key, tableDrivenTest := range tableDrivenTests {
+		fmt.Println(key)
+		got := tableDrivenTest.shape.Area()
+		if got != tableDrivenTest.want {
+			t.Errorf("got %.2f want %.2f", got, tableDrivenTest.want)
+		}
+	}
 }
