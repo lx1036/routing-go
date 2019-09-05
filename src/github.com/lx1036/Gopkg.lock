@@ -2,6 +2,24 @@
 
 
 [[projects]]
+  digest = "1:2a4c84b05ae208ba738b7a90a0637738161193b7efd2f256b6422ff8c4e4148d"
+  name = "github.com/astaxie/beego"
+  packages = [
+    ".",
+    "config",
+    "context",
+    "context/param",
+    "grace",
+    "logs",
+    "session",
+    "toolbox",
+    "utils",
+  ]
+  pruneopts = "UT"
+  revision = "32ee728078c84c28f2642c70745afc8f6830044d"
+  version = "v1.12.0"
+
+[[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
@@ -16,6 +34,17 @@
   pruneopts = "UT"
   revision = "c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9"
   version = "v1.4.7"
+
+[[projects]]
+  digest = "1:5049bcc4ddb65c9a5892f139dc517de2be3a79ff1b0c5f4c3d84d41c392d3c2a"
+  name = "github.com/getsentry/sentry-go"
+  packages = [
+    ".",
+    "gin",
+  ]
+  pruneopts = "UT"
+  revision = "510f01e3c1e95d434331b518fdc62b2adaf5cff8"
+  version = "v0.2.1"
 
 [[projects]]
   digest = "1:a4b5a6b32f33323c7850fae4ec085a0fbac3be93c057b6b8cef5bcabe24645ac"
@@ -137,6 +166,14 @@
   version = "v1.0.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:44fbfce27cb96b7d20217634af466093485a3e8132820acbe95949cb64e7fc60"
+  name = "github.com/shiena/ansicolor"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a422bbe96644373c5753384a59d678f7d261ff10"
+
+[[projects]]
   digest = "1:bb495ec276ab82d3dd08504bbc0594a65de8c3b22c6f2aaa92d05b73fbf3a82e"
   name = "github.com/spf13/afero"
   packages = [
@@ -205,6 +242,25 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:4f89a972160301f181540c6f408dd3110a633d7ea4339806c32a2f8a89dc8bb4"
+  name = "golang.org/x/crypto"
+  packages = [
+    "acme",
+    "acme/autocert",
+  ]
+  pruneopts = "UT"
+  revision = "9756ffdc24725223350eb3266ffb92590d28f278"
+
+[[projects]]
+  branch = "master"
+  digest = "1:15a159ca3e34c429f800dd822cbb37707e98552c9523b8d07fdd244dba62f04b"
+  name = "golang.org/x/net"
+  packages = ["idna"]
+  pruneopts = "UT"
+  revision = "ba9fcec4b297b415637633c5a6e8fa592e4a16c3"
+
+[[projects]]
+  branch = "master"
   digest = "1:d0c076b09de3e3682b81fa13a5150f7fc8ac93d9d90a0a7d46a882fb539d3523"
   name = "golang.org/x/sys"
   packages = ["unix"]
@@ -212,15 +268,25 @@
   revision = "1e83adbbebd0f5dc971915fd7e5db032c3d2b731"
 
 [[projects]]
-  digest = "1:1093f2eb4b344996604f7d8b29a16c5b22ab9e1b25652140d3fede39f640d5cd"
+  digest = "1:8d8faad6b12a3a4c819a3f9618cb6ee1fa1cfc33253abeeea8b55336721e3405"
   name = "golang.org/x/text"
   packages = [
+    "collate",
+    "collate/build",
+    "internal/colltab",
     "internal/gen",
+    "internal/language",
+    "internal/language/compact",
+    "internal/tag",
     "internal/triegen",
     "internal/ucd",
+    "language",
+    "secure/bidirule",
     "transform",
+    "unicode/bidi",
     "unicode/cldr",
     "unicode/norm",
+    "unicode/rangetable",
   ]
   pruneopts = "UT"
   revision = "342b2e1fbaa52c93f31447ad2c6abc048c63e475"
@@ -246,8 +312,12 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/astaxie/beego",
+    "github.com/getsentry/sentry-go",
+    "github.com/getsentry/sentry-go/gin",
     "github.com/gin-gonic/gin",
     "github.com/gin-gonic/gin/binding",
+    "github.com/spf13/cast",
     "github.com/spf13/cobra",
     "github.com/spf13/viper",
     "github.com/stretchr/testify/assert",
