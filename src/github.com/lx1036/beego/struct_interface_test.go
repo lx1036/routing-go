@@ -44,20 +44,30 @@ type Shape interface {
 	Area() float64
 }
 
+type Triangle struct {
+	base float64
+	height float64
+}
+
+func (triangle Triangle) Area() float64  {
+	return triangle.base * triangle.height * 0.5
+}
+
 func TestArea(t *testing.T) {
 	tableDrivenTests := []struct{
 		shape Shape
 		want float64
 	}{
-		{Rectangle{10.0, 10.0}, 100.0},
+		{shape: Rectangle{width: 10.0, height: 10.0}, want: 100.0},
 		{Circle{10.0}, 314.1592653589793},
+		{Triangle{12.0, 6}, 36.0},
 	}
 
 	for key, tableDrivenTest := range tableDrivenTests {
 		fmt.Println(key)
 		got := tableDrivenTest.shape.Area()
 		if got != tableDrivenTest.want {
-			t.Errorf("got %.2f want %.2f", got, tableDrivenTest.want)
+			t.Errorf("%#v got %.2f want %.2f", tableDrivenTest.shape, got, tableDrivenTest.want)
 		}
 	}
 }
