@@ -39,24 +39,26 @@ func (circle Circle) Area() float64 {
 	return math.Pi * circle.radius * circle.radius
 }
 
-func TestArea(t *testing.T) {
-	t.Run("rectangle", func(t *testing.T) {
-		rectangle := Rectangle{10.0, 10.0}
-		got := rectangle.Area()
-		want := 100.0
+type Shape interface {
+	Area() float64
+}
 
+func TestArea(t *testing.T) {
+	checkArea := func(t *testing.T, shape Shape, want float64) {
+		t.Helper()
+		got := shape.Area() // 在 Go 语言中, interface resolution 是隐式的
 		if got != want {
 			t.Errorf("got %.2f want %.2f", got, want)
 		}
+	}
+
+	t.Run("rectangle", func(t *testing.T) {
+		rectangle := Rectangle{10.0, 10.0}
+		checkArea(t, rectangle, 100.0)
 	})
 
 	t.Run("circle", func(t *testing.T) {
 		circle := Circle{10}
-		got := circle.Area()
-		want := 314.1592653589793
-
-		if got != want {
-			t.Errorf("got %.2f want %.2f", got, want)
-		}
+		checkArea(t, circle, 314.1592653589793)
 	})
 }
