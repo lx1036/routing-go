@@ -54,5 +54,5 @@ https://golang.org/pkg/net/http/
 func main()  {
 	//ginDemo()
 
-	pkgNetHttpDemo()
+	//pkgNetHttpDemo()
 }
