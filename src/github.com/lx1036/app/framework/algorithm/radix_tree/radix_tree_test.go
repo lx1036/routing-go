@@ -1,7 +1,10 @@
-package algorithm
+package radix_tree
 
 import "testing"
 
+/**
+https://github.com/trustfeed/radix-tree-go
+ */
 func TestTrie(test *testing.T) {
 	t0 := New()
 	if t0.Search([]byte{0}) != nil {

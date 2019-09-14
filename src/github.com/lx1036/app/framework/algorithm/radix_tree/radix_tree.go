@@ -1,4 +1,4 @@
-package algorithm
+package radix_tree
 
 type Node struct {
 	children [16]*Node
